@@ -1,0 +1,34 @@
+﻿<Page x:Class="BehaviorsTestApp.AncestorProvider"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:behaviors="using:BehaviorsTestApp.Behaviors"
+      mc:Ignorable="d">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <AppBarButton HorizontalAlignment="Left"
+                      Label="Back"
+                      VerticalAlignment="Top"
+                      Icon="Back"
+                      Click="ButtonBase_OnClick"/>
+        <Border x:Name="border"
+                Tag="Some Random Data In An Ancestor Property"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <Grid >
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Using a behavior to bind to an ancestor based on name or type.  This is useful for when you need to bind to an element outside a template:"/>
+                    <TextBlock Text="{Binding Path=AncestorElement.Tag, ElementName=ancestorProvider}"
+                               Foreground="White">
+                        <interactivity:Interaction.Behaviors>
+                            <behaviors:AncestorProviderBehavior x:Name="ancestorProvider"
+                                                                AncestorType="Windows.UI.Xaml.Controls.Border, Windows.UI.Xaml, Version=255.255.255.255, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime" />
+                        </interactivity:Interaction.Behaviors>
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+    </Grid>
+</Page>

@@ -1,0 +1,112 @@
+﻿<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:Behaviors="using:BehaviorsTestApp.Behaviors"
+      x:Class="BehaviorsTestApp.DistanceFromContainerPage"
+      mc:Ignorable="d">
+    <Page.Resources>
+        <Behaviors:DistanceValueFactorConverter x:Key="FactorConverter"
+                                                Factor="-1.2" />
+        <Behaviors:DistanceValueFactorConverter x:Key="FactorConverter2"
+                                                Factor="25" />
+        <Behaviors:DistanceValueFactorConverter x:Key="FactorConverter4"
+                                                Factor="350"
+                                                Center="0" />
+        <DataTemplate x:Key="ListboxDataTemplate">
+            <Grid>
+                <Interactivity:Interaction.Behaviors>
+                    <Behaviors:DistanceValueBehavior x:Name="rootDistanceBehavior"
+                                                     LeftAncestorType="Windows.UI.Xaml.Controls.FlipView, Windows.UI.Xaml, Version=255.255.255.255, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime"
+                                                     TopAncestorType="Windows.UI.Xaml.Controls.ScrollViewer, Windows.UI.Xaml, Version=255.255.255.255, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime" />
+                </Interactivity:Interaction.Behaviors>
+                <Grid.Projection>
+                    <PlaneProjection CenterOfRotationY="1"
+                                     CenterOfRotationX="1"
+                                     RotationY="{Binding DistanceFromLeft, ElementName=rootDistanceBehavior, Converter={StaticResource FactorConverter4}}" />
+                </Grid.Projection>
+
+                <StackPanel x:Name="stackPanel"
+                            Orientation="Horizontal"
+                            Margin="0,0,-50,0">
+
+                    <Border BorderThickness="2"
+                            Width="120"
+                            Height="100"
+                            CacheMode="BitmapCache"
+                            BorderBrush="White">
+                        <Border.Background>
+                            <ImageBrush Stretch="UniformToFill"
+                                        ImageSource="Images/waterfall.jpg">
+                                <ImageBrush.RelativeTransform>
+                                    <CompositeTransform CenterY="0.5"
+                                                        CenterX="0.5"
+                                                        ScaleX="2"
+                                                        ScaleY="2"
+                                                        TranslateX="{Binding DistanceFromLeft, ElementName=rootDistanceBehavior, Converter={StaticResource FactorConverter}}"
+                                                        TranslateY="{Binding DistanceFromTop,  ElementName=rootDistanceBehavior, Converter={StaticResource FactorConverter}}" />
+                                </ImageBrush.RelativeTransform>
+                            </ImageBrush>
+                        </Border.Background>
+                    </Border>
+                    <TextBlock TextWrapping="Wrap"
+                               Margin="5,0,5,0"
+                               Text="{Binding}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                    <AppBarButton HorizontalAlignment="Center"
+                                  Label="Something"
+                                  VerticalAlignment="Center"
+                                  Icon="Play"
+                                  RenderTransformOrigin="0.5,0.5"
+                                  FontFamily="Global User Interface">
+
+                        <AppBarButton.RenderTransform>
+                            <CompositeTransform TranslateX="{Binding DistanceFromLeft, ElementName=rootDistanceBehavior, Converter={StaticResource FactorConverter2}}"
+                                                TranslateY="{Binding DistanceFromTop,  ElementName=rootDistanceBehavior, Converter={StaticResource FactorConverter2}}" />
+                        </AppBarButton.RenderTransform>
+                    </AppBarButton>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+    <Grid x:Name="RootVisual"
+          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <FlipView x:Name="flipView"
+                  Width="350"
+                  HorizontalAlignment="Center"
+                  SelectedIndex="0">
+            <Grid Background="#FF2B2B2B">
+                <TextBlock HorizontalAlignment="Center"
+                           TextWrapping="Wrap"
+                           VerticalAlignment="Center"
+                           Text="FlipView Move to the Right To See ListBox with the Behavior"
+                           Foreground="White"
+                           FontSize="21.333" />
+            </Grid>
+            <ListBox ItemsSource="{Binding Items}"
+                     VerticalAlignment="Stretch"
+                     Background="{x:Null}"
+                     Style="{StaticResource ListBoxStyle}"
+                     ItemTemplate="{StaticResource ListboxDataTemplate}"
+                     BorderThickness="0"
+                     Margin="0,0,0,-6"
+                     FontFamily="Global User Interface"
+                     Foreground="White" />
+            <Grid Background="#FF2B2B2B">
+                <TextBlock HorizontalAlignment="Center"
+                           TextWrapping="Wrap"
+                           VerticalAlignment="Center"
+                           Text="FlipView Move to the Left To See ListBox with the Behavior"
+                           Foreground="White"
+                           FontSize="21.333" />
+            </Grid>
+        </FlipView>
+        <AppBarButton HorizontalAlignment="Left"
+                      Label="Back"
+                      VerticalAlignment="Top"
+                      Icon="Back"
+                      Click="ButtonBase_OnClick" />
+    </Grid>
+</Page>
