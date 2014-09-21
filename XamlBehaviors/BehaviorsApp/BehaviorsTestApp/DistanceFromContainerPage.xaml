@@ -32,8 +32,8 @@
                             Margin="0,0,-50,0">
 
                     <Border BorderThickness="2"
-                            Width="120"
-                            Height="100"
+                            Width="180"
+                            Height="160"
                             CacheMode="BitmapCache"
                             BorderBrush="White">
                         <Border.Background>
@@ -74,7 +74,7 @@
     <Grid x:Name="RootVisual"
           Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <FlipView x:Name="flipView"
-                  Width="350"
+                  Width="400"
                   HorizontalAlignment="Center"
                   SelectedIndex="0">
             <Grid Background="#FF2B2B2B">
